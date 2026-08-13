@@ -1,0 +1,8 @@
+bin/
+obj/
+.vs/
+*.user
+.env
+appsettings.Development.local.json
+package-lock.json
+HotelGraphApi.csproj.user
