@@ -40,22 +40,44 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactApp", policy =>
     {
-        var origins = new List<string>
+        policy.SetIsOriginAllowed(origin =>
         {
-            "http://localhost:5173",
-            "http://localhost:5174",
-            "http://127.0.0.1:5173"
-        };
+            if (string.IsNullOrWhiteSpace(origin))
+            {
+                return false;
+            }
 
-        var extraOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS");
-        if (!string.IsNullOrWhiteSpace(extraOrigins))
-        {
-            origins.AddRange(extraOrigins.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
-        }
+            var localOrigins = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "http://localhost:5173",
+                "http://localhost:5174",
+                "http://127.0.0.1:5173"
+            };
 
-        policy.WithOrigins(origins.ToArray())
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+            if (localOrigins.Contains(origin))
+            {
+                return true;
+            }
+
+            // Allow Render-hosted UI without manual env setup
+            if (Uri.TryCreate(origin, UriKind.Absolute, out var uri)
+                && uri.Host.EndsWith(".onrender.com", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            var extraOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS");
+            if (string.IsNullOrWhiteSpace(extraOrigins))
+            {
+                return false;
+            }
+
+            return extraOrigins
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Contains(origin, StringComparer.OrdinalIgnoreCase);
+        })
+        .AllowAnyHeader()
+        .AllowAnyMethod();
     });
 });
 

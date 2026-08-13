@@ -76,7 +76,7 @@ API listens on http://localhost:8080 inside the container.
 | `COGNODB_URI` | `bolt+s://xxx.databases.cognodb.cloud` |
 | `COGNODB_USERNAME` | `cognodb` |
 | `COGNODB_PASSWORD` | your password |
-| `ALLOWED_ORIGINS` | `https://your-ui.vercel.app` |
+| `ALLOWED_ORIGINS` | `https://your-ui.vercel.app` (optional if UI is on Render — auto-allowed) |
 
 4. After deploy succeeds, seed data: `POST https://your-api.onrender.com/api/seed`
 
