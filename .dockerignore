@@ -1,0 +1,9 @@
+bin/
+obj/
+.git/
+.vs/
+.env
+*.user
+appsettings.Development.local.json
+package-lock.json
+README.md

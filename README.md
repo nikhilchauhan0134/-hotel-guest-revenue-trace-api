@@ -51,6 +51,20 @@ $env:COGNODB_PASSWORD="your-password"
 
 See `.env.example` for reference.
 
+## Run with Docker
+
+```powershell
+docker build -t hotel-graph-api .
+docker run -p 8080:8080 `
+  -e COGNODB_URI="bolt+s://your-instance.databases.cognodb.cloud" `
+  -e COGNODB_USERNAME="cognodb" `
+  -e COGNODB_PASSWORD="your-password" `
+  -e ALLOWED_ORIGINS="https://your-ui.vercel.app" `
+  hotel-graph-api
+```
+
+API listens on http://localhost:8080 inside the container.
+
 ## Run locally
 
 ```powershell

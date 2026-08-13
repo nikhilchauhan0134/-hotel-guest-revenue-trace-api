@@ -28,10 +28,20 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactApp", policy =>
     {
-        policy.WithOrigins(
-                "http://localhost:5173",
-                "http://localhost:5174",
-                "http://127.0.0.1:5173")
+        var origins = new List<string>
+        {
+            "http://localhost:5173",
+            "http://localhost:5174",
+            "http://127.0.0.1:5173"
+        };
+
+        var extraOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS");
+        if (!string.IsNullOrWhiteSpace(extraOrigins))
+        {
+            origins.AddRange(extraOrigins.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+        }
+
+        policy.WithOrigins(origins.ToArray())
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
