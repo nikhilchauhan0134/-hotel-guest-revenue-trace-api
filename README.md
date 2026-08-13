@@ -65,6 +65,23 @@ docker run -p 8080:8080 `
 
 API listens on http://localhost:8080 inside the container.
 
+## Deploy on Render (Docker)
+
+1. **New Web Service** → connect GitHub repo `-hotel-guest-revenue-trace-api`
+2. **Environment:** Docker
+3. **Environment variables** (required):
+
+| Variable | Example |
+|----------|---------|
+| `COGNODB_URI` | `bolt+s://xxx.databases.cognodb.cloud` |
+| `COGNODB_USERNAME` | `cognodb` |
+| `COGNODB_PASSWORD` | your password |
+| `ALLOWED_ORIGINS` | `https://your-ui.vercel.app` |
+
+4. After deploy succeeds, seed data: `POST https://your-api.onrender.com/api/seed`
+
+If startup fails with **inotify** errors, redeploy after pulling latest code (fix included in Dockerfile + `Program.cs`).
+
 ## Run locally
 
 ```powershell

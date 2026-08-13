@@ -3,6 +3,18 @@ using HotelGraphApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Render/containers: avoid inotify file watcher limit on startup
+foreach (var source in builder.Configuration.Sources)
+{
+    if (source is Microsoft.Extensions.Configuration.Json.JsonConfigurationSource jsonSource)
+    {
+        jsonSource.ReloadOnChange = false;
+    }
+}
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://+:{port}");
+
 builder.Services.Configure<CognoDbSettings>(options =>
 {
     options.Uri = Environment.GetEnvironmentVariable("COGNODB_URI")
