@@ -2,6 +2,29 @@
 
 ASP.NET Core 8 Web API for the **Hotel Guest & Revenue Trace Explorer** — a CognoDB graph database application for WEXA AI take-home assignment.
 
+## Live demo
+
+- **UI:** https://hotel-guest-revenue-trace-ui.onrender.com
+- **API:** https://hotel-guest-revenue-trace-api.onrender.com
+- **Swagger:** https://hotel-guest-revenue-trace-api.onrender.com/swagger
+
+## Screenshots
+
+### Dashboard
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Room list popup
+![Room list](docs/screenshots/room-list.png)
+
+### Registered guests
+![Guest list](docs/screenshots/guest-list.png)
+
+### Guest revenue trace
+![Guest trace](docs/screenshots/guest-trace.png)
+
+### Reversal chains
+![Reversal chains](docs/screenshots/reversal-chains.png)
+
 ## Why a graph database?
 
 Hotel revenue flows are naturally connected: **Guest → Reservation → Folio → Charge → Payment → Reversal**. Tracing OHIP-style resettlement chains and cross-guest check references is awkward in SQL but natural as multi-hop graph traversals in CognoDB.
