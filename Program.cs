@@ -61,14 +61,20 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("ReactApp");
 app.UseAuthorization();
 app.MapControllers();
+
+app.MapGet("/", () => Results.Ok(new
+{
+    name = "Hotel Guest & Revenue Trace API",
+    status = "running",
+    health = "/api/health",
+    swagger = "/swagger",
+    seed = "POST /api/seed"
+}));
 
 app.Run();
